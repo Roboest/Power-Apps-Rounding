@@ -12,11 +12,10 @@ namespace Rounding
         public RoundingMethod(string unsecureConfiguration, string secureConfiguration)
             : base(typeof(RoundingMethod))
         {
-            // TODO: Implement your custom configuration handling
-            // https://docs.microsoft.com/powerapps/developer/common-data-service/register-plug-in#set-configuration-data
+           
         }
 
-        // Entry point for custom business logic execution
+        // Round the incoming decimal if all the requirements for a valid request are met
         protected override void ExecuteDataversePlugin(ILocalPluginContext localPluginContext)
         {
             if (localPluginContext == null)
@@ -26,33 +25,28 @@ namespace Rounding
 
             var context = localPluginContext.PluginExecutionContext;
 
-            decimal numberInput = context.InputParameters["roboest_decimalinput"];
-            bool forcePosititve = If(
-                context.InputParameters.contains("roboest_forceposititve"),
-                context.InputParameters["roboest_forceposititve"],
-                false
-            );
-            String chosenMethod =
-                context.InputParameters["roboest_roundingmethod"].label;
+            // Set Decimal Input as required but unbound action doesn't force it
+            if(!context.InputParameters.contains("roboest_decimalinput")){
+                throw new ArgumentNullException("Decimal", "The required value of the Decimal to be converted was empty");
+            }
 
-            
-            int result = Rounder.RoundNumber(numberInput, forcePosititve, chosenMethod);
+            // Process all the input parameters
+            decimal numberInput = (decimal)context.InputParameters["roboest_decimalinput"]; //Required
+            bool forcePosititve = context.InputParameters.contains("roboest_forceposititve")
+                ? (bool)context.InputParameters["roboest_forceposititve"]
+                : false; //Optional and default value false
+            string chosenMethod = context.InputParameters.contains("roboest_roundingmethod")
+                ? (string)context.InputParameters["roboest_roundingmethod"]
+                : "Round"; //Optional and default value "Round"
 
-            context.OutputParameters["roboest_integerResult"] = result;
+            // Check validity of the chosenMethod string
+            if(Functionality.isValidRoundingMethod(chosenMethod)){
+                throw new ArgumentException("Rounding Method", "The options for rounding are limited to: Round, RoundUp, RoundDown")
+            }
 
-            // TODO: Implement your custom business logic
+            // Return the rounded Integer if no errors occur
+            context.OutputParameters["roboest_integerResult"] = Functionality.RoundNumber(numberInput, forcePosititve, chosenMethod);
 
-            // Check for the entity on which the plugin would be registered
-            //if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is Entity)
-            //{
-            //    var entity = (Entity)context.InputParameters["Target"];
-
-            //    // Check for entity name on which this plugin would be registered
-            //    if (entity.LogicalName == "account")
-            //    {
-
-            //    }
-            //}
         }
     }
 }

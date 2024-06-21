@@ -5,8 +5,15 @@ using System.ServiceModel.Security;
 
 namespace Rounding
 {
-    public static class Rounder
+    public static class Functionality
     {
+
+        public static bool isValidRoundingMethod(string roundingMethod) {
+            string cleanedString = Regex.Replace(input, "[^a-zA-Z]", string.Empty);
+
+            return (cleanedString == "Round" || cleanedString == "RoundUp" || cleanedString == "RoundDown");
+        }
+
         public static int RoundNumber(decimal number, bool forcePosititve, string roundingMethod)
         {
             int result = 0;

@@ -19,9 +19,9 @@
   <PropertyGroup>
     <PackageId>Rounding</PackageId>
     <Version>$(FileVersion)</Version>
-    <Authors>vanpaca</Authors>
-    <Company>MyCompany</Company>
-    <Description>This is a sample nuget package which contains a Dataverse plugin and its runtime dependencies like Newtonsoft.Json</Description>
+    <Authors>CalVP</Authors>
+    <Company>Roboest</Company>
+    <Description>This is a plugin to allow for decimals to be converted to integers based on certain parameters.</Description>
   </PropertyGroup>
 
   <ItemGroup>
