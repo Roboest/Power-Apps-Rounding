@@ -41,7 +41,7 @@ namespace Rounding
 
             // Check validity of the chosenMethod string
             if(Functionality.isValidRoundingMethod(chosenMethod)){
-                throw new ArgumentException("Rounding Method", "The options for rounding are limited to: Round, RoundUp, RoundDown")
+                throw new ArgumentException("Rounding Method", "The options for rounding are limited to: Round, RoundUp, RoundDown");
             }
 
             // Return the rounded Integer if no errors occur
