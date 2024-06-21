@@ -26,16 +26,16 @@ namespace Rounding
             var context = localPluginContext.PluginExecutionContext;
 
             // Set Decimal Input as required but unbound action doesn't force it
-            if(!context.InputParameters.contains("roboest_decimalinput")){
+            if(!context.InputParameters.Contains("roboest_decimalinput")){
                 throw new ArgumentNullException("Decimal", "The required value of the Decimal to be converted was empty");
             }
 
             // Process all the input parameters
             decimal numberInput = (decimal)context.InputParameters["roboest_decimalinput"]; //Required
-            bool forcePosititve = context.InputParameters.contains("roboest_forceposititve")
+            bool forcePosititve = context.InputParameters.Contains("roboest_forceposititve")
                 ? (bool)context.InputParameters["roboest_forceposititve"]
                 : false; //Optional and default value false
-            string chosenMethod = context.InputParameters.contains("roboest_roundingmethod")
+            string chosenMethod = context.InputParameters.Contains("roboest_roundingmethod")
                 ? (string)context.InputParameters["roboest_roundingmethod"]
                 : "Round"; //Optional and default value "Round"
 

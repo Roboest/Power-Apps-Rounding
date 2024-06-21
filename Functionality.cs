@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 using System.ServiceModel.Security;
+using System.Text.RegularExpressions;
 
 namespace Rounding
 {
@@ -9,7 +10,7 @@ namespace Rounding
     {
 
         public static bool isValidRoundingMethod(string roundingMethod) {
-            string cleanedString = Regex.Replace(input, "[^a-zA-Z]", string.Empty);
+            string cleanedString = Regex.Replace(roundingMethod, "[^a-zA-Z]", string.Empty);
 
             return (cleanedString == "Round" || cleanedString == "RoundUp" || cleanedString == "RoundDown");
         }
