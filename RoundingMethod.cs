@@ -10,10 +10,7 @@ namespace Rounding
     public class RoundingMethod : PluginBase
     {
         public RoundingMethod(string unsecureConfiguration, string secureConfiguration)
-            : base(typeof(RoundingMethod))
-        {
-           
-        }
+            : base(typeof(RoundingMethod)) { }
 
         // Round the incoming decimal if all the requirements for a valid request are met
         protected override void ExecuteDataversePlugin(ILocalPluginContext localPluginContext)
@@ -25,28 +22,31 @@ namespace Rounding
 
             var context = localPluginContext.PluginExecutionContext;
 
-            // Set Decimal Input as required but unbound action doesn't force it
-            if(!context.InputParameters.Contains("roboest_decimalinput")){
-                throw new ArgumentNullException("Decimal", "The required value of the Decimal to be converted was empty");
-            }
-
             // Process all the input parameters
             decimal numberInput = (decimal)context.InputParameters["roboest_decimalinput"]; //Required
-            bool forcePosititve = context.InputParameters.Contains("roboest_forceposititve")
-                ? (bool)context.InputParameters["roboest_forceposititve"]
-                : false; //Optional and default value false
-            string chosenMethod = context.InputParameters.Contains("roboest_roundingmethod")
+            bool forcePosititve = (bool)context.InputParameters["roboest_forceposititve"]; //Optional and default value false
+            string chosenMethod = context.InputParameters["roboest_roundingmethod"] != null
                 ? (string)context.InputParameters["roboest_roundingmethod"]
                 : "Round"; //Optional and default value "Round"
 
+            localPluginContext.Trace($"Processed received parameters as numberInput {numberInput}, boolean forcePosititve {forcePosititve}, string chosenMethod {chosenMethod}");
+
             // Check validity of the chosenMethod string
-            if(Functionality.isValidRoundingMethod(chosenMethod)){
-                throw new ArgumentException("Rounding Method", "The options for rounding are limited to: Round, RoundUp, RoundDown");
+            if (!Functionality.isValidRoundingMethod(chosenMethod))
+            {
+                localPluginContext.Trace($"Confirmed that the chosenMethod was not a valid option with the input of: {chosenMethod}");
+                throw new ArgumentException(
+                    "Rounding Method",
+                    "The options for rounding are limited to: Round, RoundUp, RoundDown"
+                );
             }
 
             // Return the rounded Integer if no errors occur
-            context.OutputParameters["roboest_integerResult"] = Functionality.RoundNumber(numberInput, forcePosititve, chosenMethod);
-
+            context.OutputParameters["roboest_integerResult"] = Functionality.RoundNumber(
+                numberInput,
+                forcePosititve,
+                chosenMethod
+            );
         }
     }
 }
