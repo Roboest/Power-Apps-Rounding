@@ -34,7 +34,7 @@ To change the functionality of the plugin you can adjust the code found in this 
   Upload in the Solutions view of the environment
   pac tool prt (in the terminal)
   Update "(Assembly) Rounding"
-  Select "Rounding.dll" 
+  Select "Rounding.dll" in the ..\Rounding\bin\Debug\net462
 
 ```
 ## Who are we
