@@ -1,5 +1,5 @@
 
-# Rounding
+# Power Apps Rounding
 
 This project is a small plugin/Custom API project to fill a gap in the Power Automate functionality. 
 The gap being the lack of conversion from Decimal values to an Integer. To make this as functional as possible to help secure against dirty input data the unbound action allows for 3 inputs: The decimal to convert, a boolean to force the value to be positive (all values under 0 become 0), and an optional rounding method string Round, RoundUp, RoundDown.
